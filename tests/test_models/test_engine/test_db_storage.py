@@ -24,4 +24,3 @@ class TestDataBase(unittest.TestCase):
     def test_db(self):
         """ test database """
         pass
-
