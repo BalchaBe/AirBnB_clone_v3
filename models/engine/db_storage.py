@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-db storage
+Este módulo define una clase para administrar el almacenamiento
+de la base de datos para el clon de hbnb
 """
 from models.base_model import Base
 from sqlalchemy import create_engine
@@ -21,7 +22,8 @@ class DBStorage:
 
     def __init__(self):
         """
-        Create db
+        Crea una instancia del almacenamiento de la
+        base de datos para crear el motor
         """
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(getenv("HBNB_MYSQL_USER"),
@@ -51,26 +53,30 @@ class DBStorage:
 
     def new(self, obj):
         """
-        new insertion
+        Método para agregar el objeto a la
+        sesión actual de la base de datos
         """
         self.__session.add(obj)
 
     def save(self):
         """
-        save session
+        Método para confirmar todos los cambios de la
+        sesión actual de la base de datos
         """
         self.__session.commit()
 
     def delete(self, obj=None):
         """
-        delete None
+        Método eliminar de la
+        sesión de base de datos actual obj si no es None
         """
+        # obj = cls.id, dentro de una clase, sería una fila de esa clase
         if obj:
             self.__session.delete(obj)
 
     def reload(self):
         """
-        create table with metadata
+        crear todas las tablas en la base de datos
         """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(
@@ -80,7 +86,6 @@ class DBStorage:
 
     def close(self):
         """
-        remove all and close session
+        llamar al método remove() en el atributo de sesión privada
         """
         self.__session.close()
-
